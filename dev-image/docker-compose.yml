@@ -1,0 +1,10 @@
+version: '2'
+services:
+  server:
+    image: 'python:3-alpine'
+    volumes:
+      - '.:/usr/src/slides'
+    working_dir: '/usr/src/slides'
+    command: '/usr/local/bin/python -m http.server'
+    ports:
+      - '4321:8000'
