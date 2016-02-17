@@ -1,3 +1,14 @@
+# Hello
+
+My name is Marguerite, aka `des4maisons`
+
+I work at PagerDuty
+
+Slides: ![](slides-url.png)
+
+Blog post: [https://des4maisons.ca/2016/02/17/lessons-from-a-dev-image-journey](https://des4maisons.ca/2016/02/17/lessons-from-a-dev-image-journey)
+
+---
 
 class: center, middle
 
@@ -7,7 +18,7 @@ class: center, middle
 
 In this story, there will be pain, joy, despair and hope.
 
-It is my hope that at the end, you can take away the lessons I've learned and
+It is my hope you can take away the lessons I've learned and
 apply them to your own life.
 
 ---
@@ -237,15 +248,11 @@ question-class: active
            id="tspan5962"
            y="366"
            x="-230"
-           sodipodi:role="line">house of</tspan><tspan
+           sodipodi:role="line">failed</tspan><tspan
            id="tspan5968"
            y="385"
            x="-230"
-           sodipodi:role="line">cards</tspan><tspan
-           id="tspan5964"
-           y="405"
-           x="-230"
-           sodipodi:role="line">engineer</tspan></text>
+           sodipodi:role="line">peacemaker</tspan></text>
     </g>
     <g
        class="{{ neat-freak-class }}"
@@ -402,19 +409,15 @@ $ git clone https://github.com/cmus/cmus.git
 
 --
 
-### Configure
+### Find missing dependencies
 
 ```
 $ ./configure
 ```
 
-???
-
-Check for installed dependencies
-
 --
 
-### Build
+### Combine Dependencies and Code
 
 ```
 $ make
@@ -462,10 +465,6 @@ Sometimes the copy pasting would fail!
 Rinse-repeat of google-copy-paste in order
 
 Life was good! I got to run cool software, and I was the copy-paste queen.
-
----
-
-template: copy-paste
 
 ---
 
@@ -550,7 +549,9 @@ class: center
 
 ???
 
-One selfish, illogical part of me wants to blame the project maintainers.
+Who is to blame? Was it me, the blind copy-paster?
+
+Part of my wants to blame the project maintainers.
 
 Who hide the complexity of installing their software behind a `configure`
 command, or a sentence that says "You must install the ffmpeg shared library in
@@ -558,16 +559,19 @@ order to use this software."
 
 Offloads the burden on to their users.
 
-I know why they do it, but
-
-beginners suffer the most.
+I know why they do it, but it's not nice, especially for beginners.
 
 ---
 
-class: center middle
-![](hope.svg)
+class: center
+
+# Hope
+
+![](sunrise.jpg)
 
 ???
+
+But this is not all doom and gloom,
 
 But my journey doesn't stop on the farm.
 
@@ -604,9 +608,7 @@ Download a virtual machine image, boot it
 
 --
 
-```
-puppet apply --test
-```
+`puppet apply --test`
 
 ???
 
@@ -627,6 +629,8 @@ Drink a cup of coffee
 
 And end up with a working freshbooks.
 
+First encounter with dev image automation, I was smitten!
+
 ---
 
 name: bright-eyed
@@ -636,15 +640,8 @@ bright-eyed-class: active
 
 ---
 
-# Elements of the FreshBooks Dev Image
-
-1. Virtualization
-1. Pre-built images
-1. Configuration management
-
-???
-
-When I took a step back to deconstruct how it all worked,
+class: center, middle
+# How is this even possible
 
 ---
 
@@ -664,28 +661,18 @@ When I took a step back to deconstruct how it all worked,
 
 # Glue layer: Pre-built Machine Images
 
+
+* Virtualization not enough on its own
+
+--
+* A lot of steps between a blank virtual machine and being developer-ready
+
+--
+* Idea: Do all that work up front, capture in a snapshot
+
 ???
 
-Virtualization not enough on its own.
-
-A developer can't run `puppet agent --test` on a blank virtual machine and have
-it work.
-
-It needs an OS, and it needs to have puppet installed and configured.
-
---
-
-* Bridge between blank virtual image and
-
-    ```
-    puppet agent --test
-    ```
-
---
-* Captures bootstrap work in a snapshot
-
---
-* Known starting point for each developer
+So that all the developer has to do is boot it and run `puppet`.
 
 --
 
@@ -697,7 +684,7 @@ It needs an OS, and it needs to have puppet installed and configured.
 
 --
 
-* In this case: `puppet`
+* In this case: Puppet
 
 --
 * Description files tell the config management program what to do
@@ -710,7 +697,7 @@ It needs an OS, and it needs to have puppet installed and configured.
 
 ---
 
-# Infrastructure automation patterns
+# Recap: Infrastructure Automation Patterns
 
 * Virtualization
 * Pre-built machine images
@@ -758,8 +745,8 @@ But then they failed the first time someone from the group tried them out
 
 # Some Sound Advice
 
-* `vagrant` for setup
-* `packer` for pre-built images
+* Don't do this manually!
+* Take a look at Packer and Vagrant
 
 ???
 
@@ -850,7 +837,13 @@ Sounds like Infra-as-code!
 
 > Store this file with your project code.
 
-I can do that with packer code... so?
+???
+
+I can do that with Packer code... so??
+
+--
+
+Sounds a lot like Packer!
 
 ---
 
@@ -878,25 +871,24 @@ Only by playing with vagrant was I able to make the distinction.
     ```
 
 --
-* Configure network, mount filesystem:
+* Pick up filesystem changes, get your code interacting with the network:
 
     ```
     vagrant up
     ```
 
 --
-* Live debugging:
+* Debug your code on the machine running it:
 
     ```
     vagrant ssh
     ```
-
 ---
 
 # Packer vs Vagrant
 
 * Both automate creation and provisioning
-* Packer is about static imags
+* Packer is about static images
 * Vagrant is about living, breathing, running code
 
 ---
@@ -1054,7 +1046,8 @@ Yet we struggled
 * External servers
 
 --
-* Pre-existing infrastructure
+* The existence of very infrastructure it is supposed to provision! Classic
+    bootstrapping problem
 
 ---
 
@@ -1065,13 +1058,25 @@ cards-class: active
 
 ---
 
-# Our Dev-Image is Touchy!
+# The Good
 
-* Sensitive to any `chef` change
-* Very order dependent
-* Basically: fragile
+Though a lot of work to create, very useful for
 
-Like production, our dev-image made too many assumptions about the world
+--
+* integration-testing of chef recipes
+
+--
+* testing internal apps lacking a staging environment
+
+--
+* testing changes to deployment logic
+
+---
+
+# The Not-so-good
+
+For app development, production-like dev image takes away focus from the
+problem at hand
 
 ???
 
@@ -1105,7 +1110,22 @@ Friend who abhorred installing stuff on his host
 The Dockerfile (simple file used to describe how to create and run a docker
 container) grew to 260 lines and 2.5G. GIANT
 
-I was inspired! Why was I inspired?
+I was inspired
+
+---
+
+# Such hammer, many dockers
+
+* Every repo began to look like a nail
+    * bundler
+    * golang
+    * python
+
+???
+
+I added Dockerfiles to everything I touched!
+
+I was able to because it was super simple.....
 
 ---
 
@@ -1117,7 +1137,7 @@ whales-class: active
 ---
 
 class: tight
-# Docker is Infrastructure As Code
+# Docker repo config
 
 --
 
@@ -1143,6 +1163,10 @@ class: tight
       link: db
     ```
 
+--
+
+*Warning* I have not tested these files :P
+
 ???
 
 These files are relatively easy to write and maintain for a given project.
@@ -1153,7 +1177,7 @@ But containers are so lightweight.
 
 ---
 
-# Pre-built Images and Docker
+# Pre-building images
 
 ```bash
 docker build -t my-container .
@@ -1173,15 +1197,6 @@ docker pull my-container
 .icon[![](checkmark.png)] Pre-built images
 
 .icon[![](checkmark.png)] Infrastructure as code
-
----
-
-# Such hammer, many dockers
-
-* Everything began to look like a nail
-    * bundler
-    * golang
-    * python
 
 ---
 
@@ -1216,8 +1231,8 @@ Here we are, wherever that is. We've caught up to my present.
 explanation, outreach, and empathy of maintainers that make a good project
 great."
 
-> &mdash; Joe Nelson, @begriffs, from [a great blog
-> post](http://begriffs.com/posts/2016-01-29-making-twenty-percent-time-work.html)
+> &mdash; Joe Nelson, @begriffs, from [http://begriffs.com/posts/2016-01-29-making-twenty-percent-time-work.html
+](http://begriffs.com/posts/2016-01-29-making-twenty-percent-time-work.html)
 
 --
 
@@ -1249,9 +1264,9 @@ Marguerite des Trois Maisons
 
 * Slides made in [Remark.js](https://github.com/gnab/remark)
 * Images made in [Inkscape](https://inkscape.org/)
+* [Lessons from a Dev Image Journey, blog post](https://des4maisons.ca/2016/02/17/lessons-from-a-dev-image-journey)
 * [www.virtualbox.org](https://www.virtualbox.org/)
 * [www.vagrantup.com](https://www.vagrantup.com/)
 * [www.packer.io](https://www.packer.io/)
 * [www.docker.com](https://www.docker.com/)
 * [Kitchen Sink Docker Development Environment](https://github.com/marvinpinto/kitchensink)
-

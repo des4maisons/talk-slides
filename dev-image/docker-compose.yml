@@ -7,4 +7,4 @@ services:
     working_dir: '/usr/src/slides'
     command: '/usr/local/bin/python -m http.server'
     ports:
-      - '4321:8000'
+      - '8000:8000'
