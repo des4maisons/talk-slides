@@ -4,7 +4,7 @@
 docker-compose up
 ```
 
-then visit `<docker-machine-ip>:8000/slides.html`
+then visit `localhost:8000/slides.html`
 
 Or, you can use `python2.7` directly,
 
